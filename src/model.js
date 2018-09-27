@@ -7,14 +7,14 @@ export const SingleImage = types.model('SingleImage', {
 
 export const Store = types
   .model('Store', {
-    list: types.array(SingleImage)
+    list: types.frozen([])
   })
   .actions(self => {
     const getImages = flow(function* getImages() {
       try {
-        const newStuff = yield fetch(`api/images`);
-        console.log(newStuff.json());
-        self.list.push(newStuff);
+        const newStuff = yield fetch(`/api/images`);
+        const data = yield newStuff.json();
+        self.list = data;
       } catch (err) {
         console.log(err);
       }

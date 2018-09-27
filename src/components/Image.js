@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Image = ({ title, url }) => {
+const Image = ({ title, image }) => {
   return (
     <div>
-      <img src={url} />
+      <img src={image} />
       <h2>{title}</h2>
     </div>
   );

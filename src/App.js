@@ -13,9 +13,14 @@ class App extends Component {
     this.fetchImages = this.fetchImages.bind(this);
   }
   componentDidMount() {
-    this.fetchImages();
-    this.setState({ images: this.props.data.list });
-    console.log(this.state.images);
+    if (this.state.images.length < 1) {
+      this.props.data
+        .getImages()
+        .then(() => {
+          this.setState({ images: this.props.data.list });
+        })
+        .catch(err => console.log(err));
+    }
   }
 
   fetchImages() {
@@ -23,13 +28,20 @@ class App extends Component {
   }
 
   render() {
-    // const info = this.props.data.list.map((e, i) => {
-    //   return <Container key={i} name={e.title} single={e.url} />;
-    // });
+    console.log(this.state.images);
+    const info = this.props.data.list.map((e, i) => {
+      return (
+        <Container
+          key={i}
+          name={e.title}
+          photo={e.file.url.replace(/\/\/\//, '')}
+        />
+      );
+    });
     return (
       <div className="app-div">
         <h1>Alphabetta</h1>
-        {/* <div>{info}</div> */}
+        <div>{info}</div>
       </div>
     );
   }
