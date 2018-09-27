@@ -9,6 +9,7 @@ const app = express();
 app.use(json());
 
 app.get(`/api/images`, ctrl.getAssets);
+app.get(`/api/entries`, ctrl.getEntries);
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { observer } from 'mobx-react';
-import Container from './components/Container';
+import Container from './components/Container/Container';
 import './App.css';
 
 class App extends Component {
@@ -10,9 +11,12 @@ class App extends Component {
     this.state = {
       images: []
     };
-    this.fetchImages = this.fetchImages.bind(this);
   }
   componentDidMount() {
+    axios
+      .get('/api/entries')
+      .then(resp => console.log(resp.data))
+      .catch(err => console.log(err));
     if (this.state.images.length < 1) {
       this.props.data
         .getImages()
@@ -21,10 +25,6 @@ class App extends Component {
         })
         .catch(err => console.log(err));
     }
-  }
-
-  fetchImages() {
-    this.props.data.getImages();
   }
 
   render() {
@@ -41,7 +41,7 @@ class App extends Component {
     return (
       <div className="app-div">
         <h1>Alphabetta</h1>
-        <div>{info}</div>
+        <div className="app-info">{info}</div>
       </div>
     );
   }

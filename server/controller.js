@@ -12,11 +12,29 @@ module.exports = {
       )
       .then(resp => {
         const { items } = resp.data;
-        const mapped = items.map(e => {
-          return e.fields;
-        });
-        res.status(200).json(mapped);
+        res.status(200).json(getMapped(items));
       })
       .catch(err => console.log(err));
+  },
+  getEntries: (req, res) => {
+    axios
+      .get(
+        `https://cdn.contentful.com/spaces/${
+          process.env.SPACE_ID
+        }/environments/${process.env.ENVIRONMENT_ID}/entries?access_token=${
+          process.env.ACCESS_TOKEN
+        }`
+      )
+      .then(resp => {
+        const { items } = resp.data;
+        res.status(200).json(getMapped(items));
+      });
   }
+};
+
+const getMapped = arr => {
+  const mapped = arr.map(e => {
+    return e.fields;
+  });
+  return mapped;
 };
